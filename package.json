@@ -1,0 +1,26 @@
+{
+  "name": "codewars",
+  "version": "0.1.0",
+  "description": "CLI for codewars.com",
+  "keywords": [
+    "codewars"
+  ],
+  "main": "lib",
+  "license": "MIT",
+  "bin": {
+    "codewars": "bin/cli.js"
+  },
+  "scripts": {
+    "test": "mocha -r should --recursive",
+    "test-watch": "mocha -R min -w -r should --recursive"
+  },
+  "devDependencies": {
+    "should": "~2.1.1",
+    "mocha": "~1.17.0",
+    "sinon": "~1.8.2",
+    "proxyquire": "~0.5.2"
+  },
+  "dependencies": {
+    "request": "~2.34.0"
+  }
+}
