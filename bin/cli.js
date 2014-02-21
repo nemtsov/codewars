@@ -4,19 +4,23 @@ var inirc = require('inirc'),
   User = require('../lib').User,
   Kata = require('../lib').Kata,
   rc = inirc('.codewarsrc'),
+  read = require('read'),
   DEFAULT_HOST = 'http://localhost:8999',
   user, kata;
 
 function main(cb) {
-  var config, user, kata;
+  var config, host, user, kata;
 
   function auth(err, cfg) {
     if (err) return cb(err);
     config = cfg;
-    user = new User({host: config.host || DEFAULT_HOST});
+    host = config.host || DEFAULT_HOST;
+    user = new User({host: host});
     if (!config.accessToken) {
-      var name = 'todo', pass = 'todo';
-      user.signIn(name, pass, addToken);
+      readCreds(host, function (err, creds) {
+        if (err) return cb(err);
+        user.signIn(creds.username, creds.password, addToken);
+      });
     } else {
       getKata(null);
     }
@@ -31,7 +35,7 @@ function main(cb) {
   function getKata(err) {
     if (err) return cb(err);
     kata = new Kata({
-      host: config.host || DEFAULT_HOST,
+      host: host,
       accessToken: config.accessToken
     });
     kata.next(done);
@@ -43,6 +47,21 @@ function main(cb) {
   }
 
   rc.get(auth);
+}
+
+function readCreds(host, cb) {
+  read({prompt: host + ' username: '}, function (err, username) {
+    if (err) return cb(err);
+    read({
+      prompt: host + ' password for ' + username + ' (never stored): ',
+      silent: true
+    }, function (err, password) {
+      cb(err, {
+        username: username,
+        password: password
+      });
+    });
+  });
 }
 
 main(function (err) {

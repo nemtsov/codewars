@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "request": "~2.34.0",
-    "inirc": "~0.1.0"
+    "inirc": "~0.1.0",
+    "read": "~1.0.5"
   }
 }
