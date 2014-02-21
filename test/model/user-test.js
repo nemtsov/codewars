@@ -15,8 +15,10 @@ describe('User', function () {
   });
 
   it('should get', function (done) {
+    user._post.yields(null, {private_key: '33'});
     user.signIn('name', 'pass', function (err, user) {
-      err.message.should.equal('not implemented');
+      if (err) return done(err);
+      user.private_key.should.equal('33');
       done();
     });
   });
