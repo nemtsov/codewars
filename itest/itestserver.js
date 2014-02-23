@@ -21,7 +21,11 @@ server = http.createServer(function (req, res) {
   } else if (/^\/kata\/[^\/]+\/?[^\/]*private_key=secret/.test(req.url)) {
     body = {
       id: '123',
-      instructions: 'In this exercise...',
+      name: 'Find a needle in a haystack',
+      discipline: 'Algorithms',
+      description: 'In this exercise...',
+      preloaded: 'function find(needle, haystack) {\n}',
+      test_fixture: 'Test.expect(find(3, [1, 2, 3]), \'3 is found\');',
       solution_id: '456'
     };
   } else {
