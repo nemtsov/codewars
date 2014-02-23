@@ -29,7 +29,7 @@ Regarding stack-traces
 Stack-traces, or at least the line number and the character
 of the failed code, are visible only in Node v0.11 and above. This
 is due to the new [displayErrors option](http://nodejs.org/dist/v0.11.11/docs/api/vm.html#vm_script_runinthiscontext_options) of the
-`vm` module, which is not available on v0.10 and older versions.
+`vm` module, which is not available on older versions.
 
 A pull-request is welcome for a way to run katas securely and
 have stack-traces on earlier versions of Node.
