@@ -23,10 +23,16 @@ server = http.createServer(function (req, res) {
       id: '123',
       name: 'Find a needle in a haystack',
       discipline: 'Algorithms',
-      description: 'In this exercise...',
       preloaded: 'function find(needle, haystack) {\n}',
       test_fixture: 'Test.expect(find(3, [1, 2, 3]), \'3 is found\');',
-      solution_id: '456'
+      solution_id: '456',
+      resultId: "53090b16aca5bcf5b60008be",
+      startedAt: "2014-02-22T20:40:24Z",
+      description: "In this kata you have to create all permutations...",
+      package: "",
+      exampleFixture: "describe('permutations', function() {\n  it('examples from description', function() {\n    Test.assertSimilar(permutations('a'), ['a']);\n    Test.assertSimilar(permutations('ab').sort(), ['ab', 'ba'].sort());\n    Test.assertSimilar(permutations('aabb').sort(), ['aabb', 'abab', 'abba', 'baab', 'baba', 'bbaa'].sort());\n  });\n});",
+      newPlay: false,
+      workingSolution: null
     };
   } else {
     statusCode = 400;
