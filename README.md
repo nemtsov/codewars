@@ -28,7 +28,7 @@ Commands
 
 **next** - retrieves the next kata. Places the stub into `kata.js`, the test into `test.js` and the description in the `README.md`.
 
-**<kata_id>** - same as `next`, but by providing a specific kata id
+**\<kata_id\>** - same as `next`, but by providing a specific kata id
 
 **test** - run the test.js with kata.js
 
