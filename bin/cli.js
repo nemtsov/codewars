@@ -71,7 +71,11 @@ function cli(argv, cb) {
         break;
       }
       case 'attempt': {
-        kata.attempt(attemptResults);
+        //TODO: get info
+        var kataId = null,
+          solutionId = null,
+          solution = null;
+        kata.attempt(kataId, solutionId, solution, attemptResults);
         break;
       }
       default: {
