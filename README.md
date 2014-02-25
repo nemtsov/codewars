@@ -23,6 +23,19 @@ $ codewars attempt
 ```
 
 
+Commands
+--------
+
+**next** - retrieves the next kata. Places the stub into `kata.js`, the test into `test.js` and the description in the `README.md`.
+
+**<kata_id>** - same as `next`, but by providing a specific kata id
+
+**test** - run the test.js with kata.js
+
+**test --watch** or **-w** - will run the test, and watch for changes in the files; re-running the test when a file is updated
+
+
+
 Regarding stack-traces
 ----------------------
 
