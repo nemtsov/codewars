@@ -1,14 +1,25 @@
 #!/usr/bin/env node
 
+require('colors');
+
 var inirc = require('inirc'),
   Auth = require('../lib/auth'),
   TestRunner = require('../lib/test/runner'),
   User = require('../lib').User,
   Kata = require('../lib').Kata,
+  KataView = require('../lib/kata/view'),
   rc = inirc('.codewarsrc'),
   DEFAULT_HOST = 'http://localhost:8999';
 
 module.exports = cli;
+
+/**
+ * The controller.
+ *
+ * It is responsible for initializing the classes
+ * of this library, taking user's input and calling
+ * the appropriate methods on the initialized classes.
+ */
 
 function cli(argv, cb) {
   var rcConfig, config, user,
@@ -40,27 +51,32 @@ function cli(argv, cb) {
   }
 
   function runCommand(err) {
-    var kata, runner, cli, isWatchOn;
+    var kata, runner, cli, isWatchOn, kataView;
     if (err) return cb(err);
 
     kata = new Kata(config);
     runner = new TestRunner();
+    kataView = new KataView();
 
-    function gotKata(err, exercise) {
+    function writeKata(err, kata) {
       if (err) return cb(err);
-      //TODO: do something with kata
-      cb(null, exercise);
+      kataView.write(kata, cb);
+    }
+
+    function attempt(err, info) {
+      if (err) return cb(err);
+      kata.attempt(info.id, info.solution_id,
+        info.solution, attemptResults);
     }
 
     function attemptResults(err, results) {
       if (err) return cb(err);
-      //TODO: do something with results
-      cb(null, results);
+      kataView.renderAttempt(results, cb);
     }
 
     switch (command) {
       case 'next': {
-        kata.next(gotKata);
+        kata.next(writeKata);
         break;
       }
       case 'test': {
@@ -71,16 +87,12 @@ function cli(argv, cb) {
         break;
       }
       case 'attempt': {
-        //TODO: get info
-        var kataId = null,
-          solutionId = null,
-          solution = null;
-        kata.attempt(kataId, solutionId, solution, attemptResults);
+        kataView.read(attempt);
         break;
       }
       default: {
         if (!command || !/[a-zA-Z0-9]+/.test(command)) return usage(cb);
-        kata.get(command, gotKata);
+        kata.get(command, writeKata);
       }
     }
   }
@@ -105,7 +117,7 @@ function usage(cb) {
 // if top level run; otherwise let the parent decide
 if (!module.parent) {
   cli(process.argv, function (err, message) {
-    if (err) throw err;
+    if (err) console.error('Error: '.red + err.message.red);
     if (message) console.log(message);
   });
 }
