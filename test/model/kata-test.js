@@ -24,7 +24,7 @@ describe('Kata', function () {
   });
 
   it('should get next', function (done) {
-    kata._get.yields(null, {id: 3});
+    kata._post.yields(null, {id: 3});
     kata.next(function (err, kata) {
       if (err) return done(err);
       kata.id.should.equal(3);
@@ -33,7 +33,8 @@ describe('Kata', function () {
   });
 
   it('should attempt', function (done) {
-    kata._post.yields(null, {id: 2});
+    kata._post.yields(null, {dmid: 1});
+    kata._get.yields(null, {id: 2, success: true});
     kata.attempt('1', '2', 'sol', function (err, res) {
       if (err) return done(err);
       res.id.should.equal(2);

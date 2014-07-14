@@ -1,11 +1,7 @@
-ALTHOUGH FEATURE COMPLETE, THIS LIBRARY IS [WAITING FOR THE CODEWARS.COM API TO EXIST](https://github.com/nemtsov/codewars/issues/1) 
-BEFORE IT CAN BE FULLY FUNCTIONAL. MEANWHILE, YOU CAN USE THIS LIB TO TEST YOUR KATAS
-QUICKLY OFFLINE.
-
 codewars
 ========
 
-codewars.com library and cli.
+codewars.com library and cli for retrieving, testing locally and attempting katas.
 
 
 Flow
@@ -31,7 +27,7 @@ Commands
 
 **next** - retrieves the next kata. Places the stub into `kata.js`, the test into `test.js` and the description in the `README.md`.
 
-**\<kata_id\>** - same as `next`, but by providing a specific kata id
+**\<kata_id_or_slug\>** - same as `next`, but by providing a specific kata id or slug
 
 **test** - run the test.js with kata.js
 

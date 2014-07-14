@@ -5,11 +5,10 @@ require('colors');
 var inirc = require('inirc'),
   Auth = require('../lib/auth'),
   TestRunner = require('../lib/test/runner'),
-  User = require('../lib').User,
   Kata = require('../lib').Kata,
   KataView = require('../lib/kata/view'),
   rc = inirc('.codewarsrc'),
-  DEFAULT_HOST = 'http://localhost:8999';
+  DEFAULT_HOST = 'https://www.codewars.com/api/v1';
 
 module.exports = cli;
 
@@ -22,7 +21,7 @@ module.exports = cli;
  */
 
 function cli(argv, cb) {
-  var rcConfig, config, user,
+  var rcConfig, config,
     command = argv[2];
 
   function create(err, rcCfg) {
@@ -38,15 +37,14 @@ function cli(argv, cb) {
       accessToken: rcConfig.accessToken
     };
 
-    user = new User(config);
-    auth = new Auth(user, config);
+    auth = new Auth(config);
 
     if (config.accessToken) return runCommand(null);
-    auth.signIn(saveAccessToken);
+    auth.readToken(saveAccessToken);
   }
 
-  function saveAccessToken(err, user) {
-    config.accessToken = rcConfig.accessToken = user.private_key;
+  function saveAccessToken(err, token) {
+    config.accessToken = rcConfig.accessToken = token;
     rc.put(rcConfig, runCommand);
   }
 
@@ -65,8 +63,11 @@ function cli(argv, cb) {
 
     function attempt(err, info) {
       if (err) return cb(err);
-      kata.attempt(info.id, info.solution_id,
-        info.solution, attemptResults);
+      kata.attempt(
+        info.session.projectId,
+        info.session.solutionId,
+        info.solution,
+        attemptResults);
     }
 
     function attemptResults(err, results) {
@@ -105,7 +106,7 @@ function usage(cb) {
   cb(null,
     'Usage: codewars command\n\n' +
     'Commands:\n' +
-    '  <kata_id>    Retrieve a kata by id\n' +
+    '  <kata_id>    Retrieve a kata by id or slug\n' +
     '  next         Get the next kata\n' +
     '  test         Run the test\n' +
     '  attempt      Submit code\n\n' +
